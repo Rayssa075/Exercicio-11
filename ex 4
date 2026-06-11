@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+int main() {
+    // SIMULAÇÃO: O Programiz não lê arquivos do PC, então criamos o texto do CSV aqui dentro
+    string conteudoProdutos = 
+        "codigo,nome,preco,quantidade\n"
+        "101,Palha Italiana,6.00,20\n"
+        "102,Trufa Tradicional,5.00,30\n"
+        "103,Moca Cremosa,7.50,15\n";
+
+    // O stringstream substitui o "ifstream" para enganar o compilador online
+    stringstream arquivo(conteudoProdutos);
+    
+    string linha;
+    getline(arquivo, linha); // Pula a linha do cabeçalho (codigo,nome,preco,quantidade)
+
+    double valorTotalEstoque = 0.0;
+
+    // Processa linha por linha do arquivo simulado
+    while (getline(arquivo, linha)) {
+        if (linha.empty()) continue; 
+        
+        stringstream ss(linha);
+        string codigo, nome, precoStr, qtdStr;
+
+        // Separa os campos por vírgula
+        getline(ss, codigo, ',');
+        getline(ss, nome, ',');
+        getline(ss, precoStr, ',');
+        getline(ss, qtdStr, ',');
+
+        // Converte os textos para números
+        double preco = stod(precoStr);
+        int quantidade = stoi(qtdStr);
+
+        // Calcula o valor total em estoque
+        valorTotalEstoque += (preco * quantidade);
+    }
+
+    // Exibe o resultado que o exercício pediu
+    cout << "Valor total em estoque de todos os produtos: R$ " << valorTotalEstoque << endl;
+
+    return 0;
+}
