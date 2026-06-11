@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <limits>
+
+using namespace std;
+
+int main() {
+    // Simulando o arquivo alunos.csv na memória do Programiz
+    stringstream arquivoSimulado;
+    
+    // Grava o cabeçalho exigido pelo exercício [cite: 9]
+    arquivoSimulado << "nome,matricula,nota\n";
+
+    int n;
+    cout << "Digite o numero de alunos a cadastrar (N): ";
+    if (!(cin >> n)) return 1;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for (int i = 0; i < n; i++) {
+        string nome, matricula;
+        float nota;
+
+        cout << "\n--- Cadastrando Aluno " << i + 1 << " de " << n << " ---\n";
+        cout << "Nome: ";
+        getline(cin, nome);
+        cout << "Matricula: ";
+        getline(cin, matricula);
+        cout << "Nota: ";
+        cin >> nota;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        // Grava os dados simulando o arquivo CSV
+        arquivoSimulado << nome << "," << matricula << "," << nota << "\n";
+    }
+
+    cout << "\n=== CONTEUDO SALVO NO ARQUIVO SIMULADO (alunos.csv) ===\n";
+    cout << arquivoSimulado.str();
+    cout << "=======================================================\n";
+
+    return 0;
+}
