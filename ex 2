@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+    // Simulando que o arquivo 'alunos.csv' já possui dados guardados
+    string conteudoDoArquivo = 
+        "nome,matricula,nota\n"
+        "Andressa,2026001,9.5\n"
+        "Victor,2026002,8.0\n"
+        "Julia,2026003,8.7\n";
+
+    // Transforma a string em um fluxo de leitura (igual a um ifstream)
+    stringstream arquivo(conteudoDoArquivo);
+    string linha;
+
+    // Ignora a linha do cabeçalho
+    getline(arquivo, linha);
+
+    // Exibe os dados formatados na tela 
+    cout << left << setw(20) << "NOME" << setw(15) << "MATRICULA" << setw(5) << "NOTA" << endl;
+    cout << string(40, '-') << endl;
+
+    while (getline(arquivo, linha)) {
+        if (linha.empty()) continue;
+        
+        stringstream ss(linha);
+        string nome, matricula, notaStr;
+
+        getline(ss, nome, ',');
+        getline(ss, matricula, ',');
+        getline(ss, notaStr, ',');
+
+        cout << left << setw(20) << nome << setw(15) << matricula << setw(5) << notaStr << endl;
+    }
+
+    return 0;
+}
