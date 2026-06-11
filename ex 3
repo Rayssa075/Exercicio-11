@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+
+using namespace std;
+
+struct Aluno {
+    string nome;
+    string matricula;
+    string nota;
+};
+
+int main() {
+    // Dados iniciais simulados do arquivo
+    string conteudoInicial = 
+        "nome,matricula,nota\n"
+        "Andressa,2026001,9.5\n"
+        "Victor,2026002,8.0\n";
+
+    stringstream arquivoLeitura(conteudoInicial);
+    vector<Aluno> listaAlunos;
+    string linha, cabecalho;
+
+    getline(arquivoLeitura, cabecalho);
+
+    while (getline(arquivoLeitura, linha)) {
+        if (linha.empty()) continue;
+        stringstream ss(linha);
+        Aluno a;
+        getline(ss, a.nome, ',');
+        getline(ss, a.matricula, ',');
+        getline(ss, a.nota, ',');
+        listaAlunos.push_back(a);
+    }
+
+    string matriculaBusca;
+    cout << "Matriculas disponiveis para teste: 2026001 ou 2026002\n";
+    cout << "Digite a matricula do aluno para alterar a nota: ";
+    cin >> matriculaBusca;
+
+    bool encontrado = false;
+    for (size_t i = 0; i < listaAlunos.size(); i++) {
+        if (listaAlunos[i].matricula == matriculaBusca) {
+            string novaNota;
+            cout << "Aluno encontrado: " << listaAlunos[i].nome << endl;
+            cout << "Digite a nova nota: ";
+            cin >> novaNota;
+            listaAlunos[i].nota = novaNota;
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        cout << "Matricula nao encontrada!" << endl;
+        return 0;
+    }
+
+    // Simulando a reescrita (atualização) do arquivo 
+    stringstream arquivoEscrita;
+    arquivoEscrita << cabecalho << "\n";
+    for (size_t i = 0; i < listaAlunos.size(); i++) {
+        arquivoEscrita << listaAlunos[i].nome << "," << listaAlunos[i].matricula << "," << listaAlunos[i].nota << "\n";
+    }
+
+    cout << "\n=== ARQUIVO 'alunos.csv' ATUALIZADO COM SUCESSO ===\n";
+    cout << arquivoEscrita.str();
+    cout << "===================================================\n";
+
+    return 0;
+}
